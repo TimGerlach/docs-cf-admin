@@ -1,0 +1,31 @@
+---
+title: Using a Jumpbox to Secure Your Deployment
+owner: CloudOps
+---
+
+<strong><%= modified_date %></strong>
+
+This topic provides an example procedure for setting up a jumpbox to secure your Cloud Foundry (CF) deployment on Amazon Web Services (AWS). The jumpbox sits in a public subnet, but has access to the private subnet that contains the VMs in the deployment. Users with the correct SSH keys can `ssh` into the jumpbox, and from the jumpbox use the BOSH CLI to access the VMs in the deployment.
+
+
+##<a id='create'></a> Create a BOSH Jumpbox
+
+### Create Security Groups
+
+1. Navigate to the EC2 Dashboard in your AWS console.
+1. Click **Security Groups**.
+1. Create the following security groups by clicking **Create Security Group**:
+    * `cf`: Configure this security group to disallow inbound connections except for the elastic IP address of the jumpbox.
+    * `jumpbox`: Configure this security group to allow inbound connections to TCP port 22. 
+
+### Create Subnets
+
+1. Navigate to the VPC Dashboard in your AWS console. 
+1. Click **Subnets**. 
+1. Create the following subnets by clicking **Create Subnet**:
+    * `bosh1`: Create this subnet in the same AZ and VPC as BOSH.
+    * `bosh2`: Create this subnet in a second AZ, in the same VPC as the second NAT box and second jumpbox.
+1. Ensure that you secure the private key.   
+
+##<a id='maintain'></a> Maintain a BOSH Jumpbox
+
